@@ -1,0 +1,116 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "HASHII" "1" "March 2017" "" ""
+.
+.SH "NAME"
+\fBhashii\fR \- display ANSI colored HashiCorp logos
+.
+.SH "SYNOPSIS"
+\fBhashii\fR
+.
+.br
+\fBhasii\fR \fB\-color=<color>\fR
+.
+.br
+\fBhasii\fR \fB\-size=<size>\fR
+.
+.br
+\fBhasii\fR \fB\-dazzle\fR
+.
+.br
+\fBhasii\fR \fB\-h\fR
+.
+.br
+.
+.SH "DESCRIPTION"
+\fBhashii\fR is a toy application for printing ANSI colored HashiCorp logos to the terminal for amusement\. (Yes, it actually has its own manual page\.)
+.
+.P
+In its default mode, \fBhasii\fR prints a medium sized blue \fBH\fR logo\.
+.
+.P
+there are a few options which can be used to modify hashii\'s behavior\. e output format\.
+.
+.SH "OPTIONS"
+These options control the style of logo hashii outputs to the screen\.
+.
+.TP
+\fB\-color\fR
+[Default: \fBblue\fR] specify a color, including some special color modes, including one of: \fBblue\fR, \fBcyan\fR, \fBgreen\fR, \fBmagenta\fR, \fImix\fR, \fIrandom\fR, \fBred\fR, \fByellow\fR
+.
+.TP
+\fB\-size\fR
+[Default: \fBmedium\fR] specify the \fBH\fR logo size, which can be one of: \fBsmall\fR, \fBmedium\fR, \fBlarge\fR
+.
+.TP
+\fB\-dazzle\fR
+Dazzle mode generates continuous mix\-colored logos resulting in a mesmerizing cyclic effect\. \fIYou should not use this mode if you have any condition which can be activated by blinking lights or rapidly changing patterns\fR\.
+.
+.TP
+\fB\-h\fR
+Print help for hashii
+.
+.SH "EXAMPLES"
+Display a large green \fBH\fR logo:
+.
+.IP "" 4
+.
+.nf
+
+hashii \-color=green \-size=large
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Display a medium mix color \fBH\fR logo:
+.
+.IP "" 4
+.
+.nf
+
+hashii \-color=mix
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Display a large dazzle mode \fBH\fR logo:
+.
+.IP "" 4
+.
+.nf
+
+hashii \-dazzle
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Display help:
+.
+.IP "" 4
+.
+.nf
+
+hashii \-h
+.
+.fi
+.
+.IP "" 0
+.
+.SH "BUGS"
+\fBhashii\fR is written in Go by a complete novice during so\-called "free time" and is for entertainment purposes only\.
+.
+.SH "COPYRIGHT"
+hashii is Copyright (C) 2017 Brian Shumate \fIhttp://brianshumate\.com/\fR
+.
+.P
+hashii is released under the 2 Clause BSD license
+.
+.P
+The HashiCorp logo is a registered trademark of HashiCorp and is used with permission\.

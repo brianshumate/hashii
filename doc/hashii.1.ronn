@@ -1,0 +1,71 @@
+hashii(1) -- display ANSI colored HashiCorp logos
+=================================================
+
+## SYNOPSIS
+
+`hashii`<br>
+`hasii` `-color=<color>`<br>
+`hasii` `-size=<size>`<br>
+`hasii` `-dazzle`<br>
+`hasii` `-h`<br>
+
+## DESCRIPTION
+
+**hashii** is a toy application for printing ANSI colored HashiCorp logos
+to the terminal for amusement. (Yes, it actually has its own manual page.)
+
+In its default mode, `hasii` prints a medium sized blue **H** logo.
+
+there are a few options which can be used to modify hashii's behavior.
+e output format.
+
+## OPTIONS
+
+These options control the style of logo hashii outputs to the screen.
+
+  * `-color`:
+    [Default: **blue**] specify a color, including some special color modes, including one of: **blue**, **cyan**, **green**, **magenta**, *mix*, *random*, **red**, **yellow**
+
+  * `-size`:
+    [Default: **medium**] specify the **H** logo size, which can be one of: **small**, **medium**, **large**
+
+  * `-dazzle`:
+    Dazzle mode generates continuous mix-colored logos resulting in a
+    mesmerizing cyclic effect. *You should not use this mode if you have
+    any condition which can be activated by blinking lights or rapidly
+    changing patterns*.
+
+  * `-h`:
+    Print help for hashii
+
+## EXAMPLES
+
+Display a large green **H** logo:
+
+    hashii -color=green -size=large
+
+Display a medium mix color **H** logo:
+
+    hashii -color=mix
+
+Display a large dazzle mode **H** logo:
+
+    hashii -dazzle
+
+Display help:
+
+    hashii -h
+
+## BUGS
+
+**hashii** is written in Go by a complete novice during so-called "free time"
+and is for entertainment purposes only.
+
+## COPYRIGHT
+
+hashii is Copyright (C) 2017 Brian Shumate <http://brianshumate.com/>
+
+hashii is released under the 2 Clause BSD license
+
+The HashiCorp logo is a registered trademark of HashiCorp
+and is used with permission.
