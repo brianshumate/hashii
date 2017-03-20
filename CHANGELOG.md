@@ -9,3 +9,6 @@
 
 - Set version to "github-master" when `go install`ed
 
+## 1.0.2
+
+- Even more version whatevers

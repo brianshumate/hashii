@@ -35,7 +35,11 @@ func init() {
     // Quick n dirty version info
     if len(os.Args) > 1 {
         if os.Args[1] == "version" {
-            fmt.Printf("hashii v%s\n", version)
+            if version == "github-master" {
+                fmt.Printf("hashii %s\n", version)
+            } else {
+                fmt.Printf("hashii v%s\n", version)
+            }
             os.Exit(0)
         }
     }
@@ -49,12 +53,12 @@ func init() {
 func cleanup() {
     // Restore cursor
     fmt.Print("\033[?25h")
+    fmt.Printf("\033[H\033[2J")
     bye := "\nGoodbye!\n"
     fmt.Print(blu, bye, rst)
 }
 
 func main() {
-    // Get some number of flags (over Georgia)!
     flag.Parse()
 
     // Random color mode setup
@@ -95,7 +99,7 @@ func main() {
         fmt.Print("\033[?25l")
 
         // Yes, it is an infinite loop — we're just havin' a 'lil fun here
-        // and we have that goroutine above to handle sigint a tiny bit ☠️
+        // and we have that goroutine above to handle SIGINT a tiny bit ☠️
         for {
             fmt.Printf("\033[H\033[2J")
             dazzler := bufio.NewScanner(strings.NewReader(logo))
