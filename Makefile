@@ -28,7 +28,7 @@ LDFLAGS=-ldflags "-X main.version=${VERSION} -X github.com/brianshumate/hashii/c
 .DEFAULT_GOAL: $(BINARY)
 
 $(BINARY): $(SOURCES)
-	$(GO_BUILD) ${LDFLAGS} -o ${BINARY} ./command/hashii.go
+	$(GO_BUILD) ${LDFLAGS} -o ${BINARY} ${PACKAGESRC}
 
 all: build
 

@@ -8,27 +8,27 @@ ANSI color versions of the HashiCorp "H" logo emitted to your screen:
 
 ## Why?
 
-Casually learning Go for various values of great good!
+Casually learning the Go programming for various values of great good!
 
 ## How?
 
-If you have a Go environment established, you can get, build, and run the
+If you have a Go environment established, you can install and run the
 `hashii` command like this:
 
 ```
-go install github.com/brianshumate/hashii
+$ go install github.com/brianshumate/hashii
 ```
 
 ✨ Then, have some fun:
 
 ```
-hashii -size=medium -color=random
+$ hashii -size=medium -color=random
 ```
 
 or
 
 ```
-hashii -size=large -color=mix
+$ hashii -size=large -color=mix
 ```
 
 ### Available Colors
@@ -42,14 +42,14 @@ hashii -size=large -color=mix
 - red
 - yellow
 
-### BONUS
+### BONUS ✨
 
 Need to send a beacon, a signal of your DevOps joy? Well neighbor, try:
 
 𝗗𝗮𝘇𝘇𝗹𝗲 𝗠𝗼𝗱𝗲
 
 ```
-hashii -dazzle -size=large
+$ hashii -dazzle -size=large
 ```
 
 🎈🎉  *Great fun at parties*!
