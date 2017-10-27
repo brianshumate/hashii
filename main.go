@@ -2,7 +2,7 @@ package main
 
 import (
 	"bufio"
-	base64 "encoding/base64"
+	"encoding/base64"
 	"flag"
 	"fmt"
 	"log"
@@ -51,7 +51,7 @@ func cleanup() {
 	fmt.Print("\033[?25h")
 	fmt.Printf("\033[H\033[2J")
 	bye := "\nGoodbye!\n"
-	fmt.Print("blue", bye, rst)
+	fmt.Print(ansi.ColorCode("blue"), bye, rst)
 }
 
 // Time to make the 🍩🍩🍩🍩🍩🍩🍩
@@ -76,29 +76,29 @@ func main() {
 	// way that the string would not be decoded...
 	switch size {
 	case "small":
-		decLogo, err := base64.StdEncoding.DecodeString(logoSmall)
+		decodedLogo, err := base64.StdEncoding.DecodeString(logoSmall)
 		if err != nil {
 			panic(err)
 		}
-		logo = string(decLogo)
+		logo = string(decodedLogo)
 	case "medium":
-		decLogo, err := base64.StdEncoding.DecodeString(logoMedium)
+		decodedLogo, err := base64.StdEncoding.DecodeString(logoMedium)
 		if err != nil {
 			panic(err)
 		}
-		logo = string(decLogo)
+		logo = string(decodedLogo)
 	case "large":
-		decLogo, err := base64.StdEncoding.DecodeString(logoLarge)
+		decodedLogo, err := base64.StdEncoding.DecodeString(logoLarge)
 		if err != nil {
 			panic(err)
 		}
-		logo = string(decLogo)
+		logo = string(decodedLogo)
 	default:
-		decLogo, err := base64.StdEncoding.DecodeString(logoMedium)
+		decodedLogo, err := base64.StdEncoding.DecodeString(logoMedium)
 		if err != nil {
 			panic(err)
 		}
-		logo = string(decLogo)
+		logo = string(decodedLogo)
 	}
 
 	// ✨ Dazzle mode!
@@ -132,7 +132,6 @@ func main() {
 	scanner := bufio.NewScanner(strings.NewReader(logo))
 	for scanner.Scan() {
 		h = scanner.Text()
-
 		switch color {
 		case "plain":
 			fmt.Println(h)
