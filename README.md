@@ -8,7 +8,7 @@ ANSI color versions of the HashiCorp "H" logo emitted to your screen:
 
 ## Why?
 
-Casually learning the Go programming for various values of great good!
+Casually learning the Go programming language for various values of great good!
 
 ## How?
 
