@@ -23,28 +23,26 @@ const (
 	logoSmall    = "CiAgICAgICAgICAgJy8nICAgICcvJyAgICAgICAgICAgCiAgICAgICAgLStoSEgnICAgIC5ISGgrLiAgICAgICAgCiAgICAnOnNtSEhISEgnICAgIC5ISEhIKyAtOicgICAgCiAgL2hISEhISEhoby0gICAgIC5ISEhIKyArSEhoLyAgCiAgaEhISG1zOicgLSsnICAgIC5ISEhIKyArSEhIaCAgCiAgaEhISC8gLXltSEguICAgIC5ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEgtLi4uLi1ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEhISEhISEhISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEhISEhISEhISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEgtLi4uLi1ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEguICAgIC5ISG1zLSArSEhIaCAgCiAgaEhISC8gK0hISEguICAgICcrLiAnL3NtSEhIaCAgCiAgL3lISC8gK0hISEguICAgICA6b2RISEhISEhoLyAgCiAgICAnOi0gK0hISEguICAgIC5ISEhISGRzOicgICAgCiAgICAgICAgLitoSEguICAgIC5ISGgrLiAgICAgICAgCiAgICAgICAgICAgJzonICAgICc6Jwo="
 )
 
+// Config some things
+type Config struct {
+	LogoLarge  string
+	LogoMedium string
+	LogoSmall  string
+	Version    string
+}
+
 var color, h, logo, mix, size string
+var versionPtr *bool
 var dazzlePtr *bool
 var reset = ansi.ColorCode("reset")
-var version = "github-master"
 
 func init() {
-	// Quick n dirty version info
-	if len(os.Args) > 1 {
-		if os.Args[1] == "version" {
-			if version == "github-master" {
-				fmt.Printf("hashii %s\n", version)
-			} else {
-				fmt.Printf("hashii v%s\n", version)
-			}
-			os.Exit(0)
-		}
-	}
 
 	// CLI flags
 	dazzlePtr = flag.Bool("dazzle", false, "Engage dazzle mode")
 	flag.StringVar(&color, "color", "blue", "color= cyan, red, green, yellow, blue, magenta, white, mix, or random")
 	flag.StringVar(&size, "size", "medium", "size= small, medium, or large")
+	versionPtr = flag.Bool("version", false, "Show hashii version")
 }
 
 func cleanup() {
@@ -59,22 +57,35 @@ func cleanup() {
 func main() {
 	flag.Parse()
 
+	c := &Config{}
+
+	// Quick n dirty version info
+	c.Version = "1.0.3"
+	if *versionPtr {
+		if c.Version == "github-master" {
+			fmt.Printf("hashii %s\n", c.Version)
+		} else {
+			fmt.Printf("hashii v%s\n", c.Version)
+		}
+		os.Exit(0)
+	}
+
 	// Random color mode setup
 	rand.Seed(time.Now().Unix())
 	colors := []string{"cyan", "red", "green", "yellow", "blue", "magenta", "white"}
 	rando := colors[rand.Intn(len(colors))]
 
 	// CTRL-C handling for cleanup
-	c := make(chan os.Signal, 2)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+	chn := make(chan os.Signal, 2)
+	signal.Notify(chn, os.Interrupt, syscall.SIGTERM)
 	go func() {
-		<-c
+		<-chn
 		cleanup()
 		os.Exit(0)
 	}()
 
 	// Panic on these because there really should not be a resonable
-	// way that the string would not be decoded...
+	// way that the string cannot be decoded...
 	switch size {
 	case "small":
 		decodedLogo, err := base64.StdEncoding.DecodeString(logoSmall)

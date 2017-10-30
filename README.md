@@ -12,8 +12,7 @@ Casually learning the Go programming language for various values of great good!
 
 ## How?
 
-If you have a Go environment established, you can install and run the
-`hashii` command like this:
+If you have a Go environment, you can install and run the `hashii` command like this:
 
 ```
 $ go install github.com/brianshumate/hashii
@@ -44,7 +43,7 @@ $ hashii -size=large -color=mix
 
 ### BONUS ✨
 
-Need to send a beacon, a signal of your DevOps joy? Well neighbor, try:
+Need to send a beacon, a signal of your HashiJoy? Well neighbor, try:
 
 𝗗𝗮𝘇𝘇𝗹𝗲 𝗠𝗼𝗱𝗲
 
