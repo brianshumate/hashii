@@ -49,6 +49,7 @@ func cleanup() {
 	// Restore cursor
 	fmt.Print("\033[?25h")
 	fmt.Printf("\033[H\033[2J")
+
 	bye := "\nGoodbye!\n"
 	fmt.Print(ansi.ColorCode("blue"), bye, reset)
 }
