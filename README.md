@@ -8,17 +8,17 @@ ANSI color versions of the HashiCorp "H" logo emitted to your screen:
 
 ## Why?
 
-Casually learning the Go programming language for various values of great good!
+Casually learning the Go programming language for various values of great good! Please understand that as this is just a personal learning example, it is not open to collaboration and so issues are not enabled on this repository.
 
 ## How?
 
 If you have a Go environment, you can install and run the `hashii` command like this:
 
 ```
-$ go install github.com/brianshumate/hashii
+$ go get -u github.com/brianshumate/hashii
 ```
 
-✨ Then, have some fun:
+Then, have some fun:
 
 ```
 $ hashii -size=medium -color=random
