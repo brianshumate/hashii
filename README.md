@@ -2,23 +2,31 @@
 
 ## What?
 
-ANSI color versions of the HashiCorp "H" logo emitted to your screen:
+ANSI colorized ASCII versions of the HashiCorp logo emitted to your terminal:
 
 ![](https://github.com/brianshumate/hashii/blob/master/share/screenshot.png)
 
 ## Why?
 
-Casually learning the Go programming language for various values of great good! Please understand that as this is just a personal learning example, it is not open to collaboration and so issues are not enabled on this repository.
+I am casually learning the Go programming language for various values of great good!
+
+> NOTE: this is just a personal learning example and so it is not open to collaboration; issues are intentionally not enabled for this repository.
 
 ## How?
 
-If you have a Go environment, you can install and run the `hashii` command like this:
+If you have an ANSI color capable terminal and a Go environment, you can install the `hashii` command like this:
 
 ```
 $ go get -u github.com/brianshumate/hashii
 ```
 
-Then, have some fun:
+Then, run it:
+
+```
+$ hashii
+```
+
+or
 
 ```
 $ hashii -size=medium -color=random
@@ -28,6 +36,15 @@ or
 
 ```
 $ hashii -size=large -color=mix
+```
+
+You can also clone this repository, and use `make`:
+
+```
+$ git clone https://github.com/brianshumate/hashii
+$ cd hashii
+$ make
+$ ./hashii
 ```
 
 ### Available Colors
@@ -43,7 +60,7 @@ $ hashii -size=large -color=mix
 
 ### BONUS ✨
 
-Need to send a beacon, a signal of your HashiJoy? Well neighbor, try:
+Need to send a beacon — a signal of your HashiJoy? Well neighbor, try:
 
 𝗗𝗮𝘇𝘇𝗹𝗲 𝗠𝗼𝗱𝗲
 
