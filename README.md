@@ -12,7 +12,7 @@ Casually learning the Go programming language for various values of great good! 
 
 ## How?
 
-If you have a Go environment, you can install and run the `hashii` command like this:
+If you have a Go environment, you can download, compile, and run the `hashii` command like this:
 
 ```
 $ go get -u github.com/brianshumate/hashii
@@ -30,16 +30,7 @@ or
 $ hashii -size=large -color=mix
 ```
 
-### Available Colors
-
-- blue
-- cyan
-- green
-- magenta
-- mix
-- random
-- red
-- yellow
+The available colors are standard ANSI foreground colors: _blue_, _cyan_, _green_, _magenta_, _red_, and _yellow_; there are also two special color modes: _mix_ and _random_.
 
 ### BONUS ✨
 
@@ -61,7 +52,7 @@ BSD
 
 ## Copyright
 
-The HashiCorp logo is Copyright HashiCorp and is used with permission.
+The HashiCorp 'H' logo is a registered trademark of HashiCorp and is used with permission.
 
 ## Who?
 

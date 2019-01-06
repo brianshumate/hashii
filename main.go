@@ -29,7 +29,7 @@ type Config struct {
 	Version string
 }
 
-// Dem varbles!
+// Dem varbles™!
 var (
 	color, h, logo, mix, size string
 	versionPtr                *bool
@@ -40,14 +40,14 @@ var (
 func init() {
 
 	// CLI flags
-	dazzlePtr = flag.Bool("dazzle", false, "Engage dazzle mode")
+	dazzlePtr = flag.Bool("dazzle", false, "Engage dazzle mode (CTRL-C to exit)")
 	flag.StringVar(&color, "color", "blue", "color=cyan, red, green, yellow, blue, magenta, white, mix, or random")
 	flag.StringVar(&size, "size", "medium", "size= small, medium, or large")
 	versionPtr = flag.Bool("version", false, "Show hashii version")
 }
 
+// Function cleanup restores the cursor to its default state
 func cleanup() {
-	// Restore cursor
 	fmt.Print("\033[?25h")
 	fmt.Printf("\033[H\033[2J")
 	bye := "\nGoodbye!\n"
@@ -60,7 +60,7 @@ func main() {
 
 	c := &Config{}
 
-	// Quick n dirty version info
+	// Quick 'n dirty version info
 	c.Version = version
 	if *versionPtr {
 		if c.Version == "github-master" {
@@ -85,33 +85,38 @@ func main() {
 		os.Exit(0)
 	}()
 
-	// Panic on these because there really should not be a resonable
-	// way that the string cannot be decoded...
+	// Panic on these because there really should not be a reasonable
+	// way that the string cannot be decoded from here...
 	switch size {
+
 	case "small":
 		decodedLogo, err := base64.StdEncoding.DecodeString(logoSmall)
 		if err != nil {
 			panic(err)
 		}
 		logo = string(decodedLogo)
+
 	case "medium":
 		decodedLogo, err := base64.StdEncoding.DecodeString(logoMedium)
 		if err != nil {
 			panic(err)
 		}
 		logo = string(decodedLogo)
+
 	case "large":
 		decodedLogo, err := base64.StdEncoding.DecodeString(logoLarge)
 		if err != nil {
 			panic(err)
 		}
 		logo = string(decodedLogo)
+
 	default:
 		decodedLogo, err := base64.StdEncoding.DecodeString(logoMedium)
 		if err != nil {
 			panic(err)
 		}
 		logo = string(decodedLogo)
+
 	}
 
 	// ✨ Dazzle mode!
