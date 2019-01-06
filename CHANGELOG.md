@@ -1,7 +1,12 @@
+## v1.0.5
+
+- Update code/comments
+- Update documentation
+
 ## v1.0.4
 
-- Code cleanup and commenting
-- Better help text
+- Additional code cleanup
+- Update documentation
 
 ## v1.0.3
 
