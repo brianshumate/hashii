@@ -21,13 +21,12 @@ If you have an ANSI color capable terminal and a Go environment, you can downloa
 $ go get -u github.com/brianshumate/hashii
 ```
 
-You can also clone this repository, and use `make`:
+You can also clone this repository, and use `make`, but you will still need the Go language environment installed:
 
 ```
 $ git clone https://github.com/brianshumate/hashii
 $ cd hashii
 $ make
-$ ./hashii
 ```
 
 ### Run hashii

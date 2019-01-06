@@ -38,7 +38,7 @@ build: fmt lint vet
 
 install: clean all doc
 	@echo "==> Install $(BINARY) ..."; \
-	$(GO_INSTALL) ${LDFLAGS} $(SOURCEDIR)/$(PACKAGESRC) || exit 1; \
+	$(GO_INSTALL) || exit 1; \
 
 clean:
 	@echo "==> Clean $(PACKAGESRC) ..."; \
