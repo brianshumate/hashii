@@ -1,5 +1,7 @@
 # hashii
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 ## What?
 
 ANSI colorized ASCII versions of the HashiCorp logo emitted to your terminal:
