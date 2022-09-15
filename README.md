@@ -1,64 +1,55 @@
 # hashii
 
-[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
-
 ## What?
 
-ANSI colorized ASCII versions of the HashiCorp logo emitted to your terminal:
+ANSI color versions of the HashiCorp "H" logo emitted to your screen:
 
 ![](https://github.com/brianshumate/hashii/blob/master/share/screenshot.png)
 
 ## Why?
 
-I am casually learning the Go programming language for various values of great good!
-
-> NOTE: this is just a personal learning example and so it is not open to collaboration; issues are intentionally not enabled for this repository.
+Casually learning Go for various values of great good!
 
 ## How?
 
-If you have an ANSI color capable terminal and a Go environment, you can download, compile, and run the `hashii` command like this:
-
-### Install hashii
-```
-$ go get -u github.com/brianshumate/hashii
-```
-
-You can also clone this repository, and use `make`, but you will still need the Go language environment installed:
+If you have a Go environment established, you can get, build, and run the
+`hashii` command like this:
 
 ```
-$ git clone https://github.com/brianshumate/hashii
-$ cd hashii
-$ make
+go install github.com/brianshumate/hashii
 ```
 
-### Run hashii
+✨ Then, have some fun:
 
 ```
-$ hashii
+hashii -size=medium -color=random
 ```
 
 or
 
 ```
-$ hashii -size=medium -color=random
+hashii -size=large -color=mix
 ```
 
-or
+### Available Colors
 
-```
-$ hashii -size=large -color=mix
-```
+- blue
+- cyan
+- green
+- magenta
+- mix
+- random
+- red
+- yellow
 
-The available colors are standard ANSI foreground colors: _blue_, _cyan_, _green_, _magenta_, _red_, and _yellow_; there are also two special color modes: _mix_ and _random_.
+### BONUS
 
-### BONUS ✨
-
-Need to send a beacon — a signal of your HashiJoy? Well neighbor, try:
+Need to send a beacon, a signal of your DevOps joy? Well neighbor, try:
 
 𝗗𝗮𝘇𝘇𝗹𝗲 𝗠𝗼𝗱𝗲
 
 ```
-$ hashii -dazzle -size=large
+hashii -dazzle -size=large
 ```
 
 🎈🎉  *Great fun at parties*!
@@ -67,11 +58,11 @@ $ hashii -dazzle -size=large
 
 ## License?
 
-BSD 2 Clause
+BSD
 
 ## Copyright
 
-The HashiCorp 'H' logo is a registered trademark of HashiCorp and is used with permission.
+The HashiCorp logo is Copyright HashiCorp and is used with permission.
 
 ## Who?
 

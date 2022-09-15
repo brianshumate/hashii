@@ -4,17 +4,17 @@ hashii(1) -- display ANSI colored HashiCorp logos
 ## SYNOPSIS
 
 `hashii`<br>
-`hashii` `-color=<color>`<br>
-`hashii` `-size=<size>`<br>
-`hashii` `-dazzle`<br>
-`hashii` `-h`<br>
+`hasii` `-color=<color>`<br>
+`hasii` `-size=<size>`<br>
+`hasii` `-dazzle`<br>
+`hasii` `-h`<br>
 
 ## DESCRIPTION
 
 **hashii** is a toy application for printing ANSI colored HashiCorp logos
 to the terminal for amusement. (Yes, it actually has its own manual page.)
 
-In its default mode, `hashii` prints a medium sized blue **H** logo.
+In its default mode, `hasii` prints a medium sized blue **H** logo.
 
 there are a few options which can be used to modify hashii's behavior.
 e output format.
@@ -24,13 +24,10 @@ e output format.
 These options control the style of logo hashii outputs to the screen.
 
   * `-color`:
-    [Default: **blue**] specify a color, including some special color modes,
-    including one of: **blue**, **cyan**, **green**, **magenta**, *mix*,
-    *random*, **red**, **yellow**
+    [Default: **blue**] specify a color, including some special color modes, including one of: **blue**, **cyan**, **green**, **magenta**, *mix*, *random*, **red**, **yellow**
 
   * `-size`:
-    [Default: **medium**] specify the **H** logo size, which can be one of:
-    **small**, **medium**, **large**
+    [Default: **medium**] specify the **H** logo size, which can be one of: **small**, **medium**, **large**
 
   * `-dazzle`:
     Dazzle mode generates continuous mix-colored logos resulting in a
@@ -66,7 +63,7 @@ and is for entertainment purposes only.
 
 ## COPYRIGHT
 
-hashii is Copyright (C) 2018 Brian Shumate <http://brianshumate.com/>
+hashii is Copyright (C) 2017 Brian Shumate <http://brianshumate.com/>
 
 hashii is released under the 2 Clause BSD license
 

@@ -2,9 +2,10 @@ package main
 
 import (
 	"bufio"
-	"encoding/base64"
+	base64 "encoding/base64"
 	"flag"
 	"fmt"
+	"log"
 	"math/rand"
 	"os"
 	"os/signal"
@@ -15,121 +16,105 @@ import (
 	"github.com/mgutz/ansi"
 )
 
-const (
-	version      = "1.0.7"
-	defaultColor = "blue"
-	logoLarge    = "CiAgICAgICAgICAgICAgICAgICAgICAnL3MvICAgICAgICAgICAgK3kvJyAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAtK2hISEgrICAgICAgICAgICAgb0hISGhvLSAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICc6c21ISEhISEgrICAgICAgICAgICAgb0hISEhISG1zLycgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgIC4raEhISEhISEhISEgrICAgICAgICAgICAgb0hISEhISEhISGggICAgICAgICAgICAgICAgICAgCiAgICAgICAgJzpzbUhISEhISEhISEhISEgrICAgICAgICAgICAgb0hISEhISEhISGggICAgLTonICAgICAgICAgICAgCiAgICAgLitoSEhISEhISEhISEhISEhISEgrICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hIaCsuICAgICAgICAgCiAnOnNkSEhISEhISEhISEhISEhISEhoKy0gICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhIZHM6JyAgICAgCidtSEhISEhISEhISEhISEhISGRvOicgICAgICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEhISEhIbXkvLiAgICAgICAnICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEhIaCstICAgICAgIC4veW1vICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgICAgJzpvZEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIC9oSEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhoc3Nzc3Nzc3Nzc3NzaEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhob29vb29vb29vb29vaEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhteS8gICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhoby0gICAgICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb2RzLycgICAgICAgOm9kSEhISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgJyAgICAgICAuK3ltSEhISEhISEhISEhISCcgICAgCidtSEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgICAgICcvc21ISEhISEhISEhISEhISEhIbScgICAgCiAgLW9kSEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgIC1vaEhISEhISEhISEhISEhISEhIZG86ICAgICAgCiAgICAgLi95bUgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISEhISEhISEhteSsuICAgICAgICAgCiAgICAgICAgIDotICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISEhISEhkczogICAgICAgICAgICAgCiAgICAgICAgICAgICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISEh5Ky4gICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICc6c2RISEhISEhvICAgICAgICAgICAgb0hISEhISGRzOicgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAuK2hISEhvICAgICAgICAgICAgb0hISGgrLiAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAnOnMrICAgICAgICAgICAgK3M6Jwo="
-	logoMedium   = "CiAgICAgICAgICAgICAgICAgICAuICAgICAgICAuICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAnL3ltcyAgICAgICAgeW15LycgICAgICAgICAgICAgICAKICAgICAgICAgICAgLW9oSEhISHMgICAgICAgIHlISEhIaG8nICAgICAgICAgICAgCiAgICAgICAgJy9zbUhISEhISEhzICAgICAgICB5SEhISEhILiAgLScgICAgICAgIAogICAgIC0raEhISEhISEhISEhtKyAgICAgICAgeUhISEhISC4gIHNIaCstICAgICAKICAgK21ISEhISEhISEhIaCstICAgICAgICAgIHlISEhISEguICBzSEhISG0rICAgCiAgIHlISEhISEhIZHM6JyAgIC4tICAgICAgICB5SEhISEhILiAgc0hISEhIeSAgIAogICB5SEhISEhoLiAgICc6c2RIeSAgICAgICAgeUhISEhISC4gIHNISEhISHkgICAKICAgeUhISEhIcyAgLmhISEhISHkgICAgICAgIHlISEhISEguICBzSEhISEh5ICAgCiAgIHlISEhISHMgIC5ISEhISEh5ICAgICAgICB5SEhISEhILiAgc0hISEhIeSAgIAogICB5SEhISEhzICAuSEhISEhIbXl5eXl5eXl5bUhISEhISC4gIHNISEhISHkgICAKICAgeUhISEhIcyAgLkhISEhISEhISEhISEhISEhISEhISEguICBzSEhISEh5ICAgCiAgIHlISEhISHMgIC5ISEhISEhISEhISEhISEhISEhISEhILiAgc0hISEhIeSAgIAogICB5SEhISEhzICAuSEhISEhIbXl5eXl5eXl5bUhISEhISC4gIHNISEhISHkgICAKICAgeUhISEhIcyAgLkhISEhISHkgICAgICAgIHlISEhISEguICBzSEhISEh5ICAgCiAgIHlISEhISHMgIC5ISEhISEh5ICAgICAgICB5SEhISEhoJyAgc0hISEhIeSAgIAogICB5SEhISEhzICAuSEhISEhIeSAgICAgICAgeUhkbzonICAgLmhISEhISHkgICAKICAgeUhISEhIcyAgLkhISEhISHkgICAgICAgIC0uICAgJy9zbUhISEhISEh5ICAgCiAgICtkSEhISHMgIC5ISEhISEh5ICAgICAgICAgIC1vaEhISEhISEhISEhkKyAgIAogICAgIC4raEhzICAuSEhISEhIeSAgICAgICAgb21ISEhISEhISEhIaCsuICAgICAKICAgICAgICAnLiAgLkhISEhISHkgICAgICAgIHlISEhISEhIbXM6JyAgICAgICAgCiAgICAgICAgICAgICcraEhISEh5ICAgICAgICB5SEhISGgrLSAgICAgICAgICAgIAogICAgICAgICAgICAgICAnYmxzfCAgICAgICAgeUhkLycgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgIC4gICAgICAgIC4K"
-	logoSmall    = "CiAgICAgICAgICAgJy8nICAgICcvJyAgICAgICAgICAgCiAgICAgICAgLStoSEgnICAgIC5ISGgrLiAgICAgICAgCiAgICAnOnNtSEhISEgnICAgIC5ISEhIKyAtOicgICAgCiAgL2hISEhISEhoby0gICAgIC5ISEhIKyArSEhoLyAgCiAgaEhISG1zOicgLSsnICAgIC5ISEhIKyArSEhIaCAgCiAgaEhISC8gLXltSEguICAgIC5ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEgtLi4uLi1ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEhISEhISEhISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEhISEhISEhISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEgtLi4uLi1ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEguICAgIC5ISG1zLSArSEhIaCAgCiAgaEhISC8gK0hISEguICAgICcrLiAnL3NtSEhIaCAgCiAgL3lISC8gK0hISEguICAgICA6b2RISEhISEhoLyAgCiAgICAnOi0gK0hISEguICAgIC5ISEhISGRzOicgICAgCiAgICAgICAgLitoSEguICAgIC5ISGgrLiAgICAgICAgCiAgICAgICAgICAgJzonICAgICc6Jwo="
-)
-
-// Config is basic configuration
-type Config struct {
-	Version string
-}
-
-// Dem varbles™!
-var (
-	color, h, logo, mix, size string
-	versionPtr                *bool
-	dazzlePtr                 *bool
-	reset                     = ansi.ColorCode("reset")
-)
+var color, h, logo, mix, size string
+var dazzlePtr *bool
+var version = "github-master"
+var cyn = ansi.ColorCode("cyan")
+var grn = ansi.ColorCode("green")
+var blu = ansi.ColorCode("blue")
+var mag = ansi.ColorCode("magenta")
+var red = ansi.ColorCode("red")
+var rst = ansi.ColorCode("reset")
+var wht = ansi.ColorCode("white")
+var ylw = ansi.ColorCode("yellow")
+var haLg = "CiAgICAgICAgICAgICAgICAgICAgICAnL3MvICAgICAgICAgICAgK3kvJyAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAtK2hISEgrICAgICAgICAgICAgb0hISGhvLSAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICc6c21ISEhISEgrICAgICAgICAgICAgb0hISEhISG1zLycgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgIC4raEhISEhISEhISEgrICAgICAgICAgICAgb0hISEhISEhISGggICAgICAgICAgICAgICAgICAgCiAgICAgICAgJzpzbUhISEhISEhISEhISEgrICAgICAgICAgICAgb0hISEhISEhISGggICAgLTonICAgICAgICAgICAgCiAgICAgLitoSEhISEhISEhISEhISEhISEgrICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hIaCsuICAgICAgICAgCiAnOnNkSEhISEhISEhISEhISEhISEhoKy0gICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhIZHM6JyAgICAgCidtSEhISEhISEhISEhISEhISGRvOicgICAgICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEhISEhIbXkvLiAgICAgICAnICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEhIaCstICAgICAgIC4veW1vICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgICAgJzpvZEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIC9oSEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhoc3Nzc3Nzc3Nzc3NzaEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhISEhISEhISEhISEhISEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhob29vb29vb29vb29vaEhISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISGggICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhteS8gICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhoby0gICAgICAgK0hISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb2RzLycgICAgICAgOm9kSEhISEhISEhISCcgICAgCidISEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgJyAgICAgICAuK3ltSEhISEhISEhISEhISCcgICAgCidtSEhISEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgICAgICcvc21ISEhISEhISEhISEhISEhIbScgICAgCiAgLW9kSEhISEgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgIC1vaEhISEhISEhISEhISEhISEhIZG86ICAgICAgCiAgICAgLi95bUgrICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISEhISEhISEhteSsuICAgICAgICAgCiAgICAgICAgIDotICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISEhISEhkczogICAgICAgICAgICAgCiAgICAgICAgICAgICAgIGhISEhISEhISEhvICAgICAgICAgICAgb0hISEhISEhISEh5Ky4gICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICc6c2RISEhISEhvICAgICAgICAgICAgb0hISEhISGRzOicgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAuK2hISEhvICAgICAgICAgICAgb0hISGgrLiAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAnOnMrICAgICAgICAgICAgK3M6Jwo="
+var haMd = "CiAgICAgICAgICAgICAgICAgICAuICAgICAgICAuICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAnL3ltcyAgICAgICAgeW15LycgICAgICAgICAgICAgICAKICAgICAgICAgICAgLW9oSEhISHMgICAgICAgIHlISEhIaG8nICAgICAgICAgICAgCiAgICAgICAgJy9zbUhISEhISEhzICAgICAgICB5SEhISEhILiAgLScgICAgICAgIAogICAgIC0raEhISEhISEhISEhtKyAgICAgICAgeUhISEhISC4gIHNIaCstICAgICAKICAgK21ISEhISEhISEhIaCstICAgICAgICAgIHlISEhISEguICBzSEhISG0rICAgCiAgIHlISEhISEhIZHM6JyAgIC4tICAgICAgICB5SEhISEhILiAgc0hISEhIeSAgIAogICB5SEhISEhoLiAgICc6c2RIeSAgICAgICAgeUhISEhISC4gIHNISEhISHkgICAKICAgeUhISEhIcyAgLmhISEhISHkgICAgICAgIHlISEhISEguICBzSEhISEh5ICAgCiAgIHlISEhISHMgIC5ISEhISEh5ICAgICAgICB5SEhISEhILiAgc0hISEhIeSAgIAogICB5SEhISEhzICAuSEhISEhIbXl5eXl5eXl5bUhISEhISC4gIHNISEhISHkgICAKICAgeUhISEhIcyAgLkhISEhISEhISEhISEhISEhISEhISEguICBzSEhISEh5ICAgCiAgIHlISEhISHMgIC5ISEhISEhISEhISEhISEhISEhISEhILiAgc0hISEhIeSAgIAogICB5SEhISEhzICAuSEhISEhIbXl5eXl5eXl5bUhISEhISC4gIHNISEhISHkgICAKICAgeUhISEhIcyAgLkhISEhISHkgICAgICAgIHlISEhISEguICBzSEhISEh5ICAgCiAgIHlISEhISHMgIC5ISEhISEh5ICAgICAgICB5SEhISEhoJyAgc0hISEhIeSAgIAogICB5SEhISEhzICAuSEhISEhIeSAgICAgICAgeUhkbzonICAgLmhISEhISHkgICAKICAgeUhISEhIcyAgLkhISEhISHkgICAgICAgIC0uICAgJy9zbUhISEhISEh5ICAgCiAgICtkSEhISHMgIC5ISEhISEh5ICAgICAgICAgIC1vaEhISEhISEhISEhkKyAgIAogICAgIC4raEhzICAuSEhISEhIeSAgICAgICAgb21ISEhISEhISEhIaCsuICAgICAKICAgICAgICAnLiAgLkhISEhISHkgICAgICAgIHlISEhISEhIbXM6JyAgICAgICAgCiAgICAgICAgICAgICcraEhISEh5ICAgICAgICB5SEhISGgrLSAgICAgICAgICAgIAogICAgICAgICAgICAgICAnYmxzfCAgICAgICAgeUhkLycgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgIC4gICAgICAgIC4K"
+var haSm = "CiAgICAgICAgICAgJy8nICAgICcvJyAgICAgICAgICAgCiAgICAgICAgLStoSEgnICAgIC5ISGgrLiAgICAgICAgCiAgICAnOnNtSEhISEgnICAgIC5ISEhIKyAtOicgICAgCiAgL2hISEhISEhoby0gICAgIC5ISEhIKyArSEhoLyAgCiAgaEhISG1zOicgLSsnICAgIC5ISEhIKyArSEhIaCAgCiAgaEhISC8gLXltSEguICAgIC5ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEgtLi4uLi1ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEhISEhISEhISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEhISEhISEhISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEgtLi4uLi1ISEhIKyArSEhIaCAgCiAgaEhISC8gK0hISEguICAgIC5ISG1zLSArSEhIaCAgCiAgaEhISC8gK0hISEguICAgICcrLiAnL3NtSEhIaCAgCiAgL3lISC8gK0hISEguICAgICA6b2RISEhISEhoLyAgCiAgICAnOi0gK0hISEguICAgIC5ISEhISGRzOicgICAgCiAgICAgICAgLitoSEguICAgIC5ISGgrLiAgICAgICAgCiAgICAgICAgICAgJzonICAgICc6Jwo="
 
 func init() {
+	// Quick n dirty version info
+	if len(os.Args) > 1 {
+		if os.Args[1] == "version" {
+			if version == "github-master" {
+				fmt.Printf("hashii %s\n", version)
+			} else {
+				fmt.Printf("hashii v%s\n", version)
+			}
+			os.Exit(0)
+		}
+	}
+
 	// CLI flags
-	dazzlePtr = flag.Bool("dazzle", false, "Engage dazzle mode (CTRL-C to exit)")
-	flag.StringVar(&color, "color", "blue", "cyan, red, green, yellow, blue, magenta, white, mix, or random")
-	flag.StringVar(&size, "size", "medium", "small, medium, or large")
-	versionPtr = flag.Bool("version", false, "Show hashii version")
+	dazzlePtr = flag.Bool("dazzle", false, "Engage dazzle mode")
+	flag.StringVar(&color, "color", "blue", "color= cyan, red, green, yellow, blue, magenta, white, mix, or random")
+	flag.StringVar(&size, "size", "medium", "size= small, medium, or large")
 }
 
-// Function cleanup restores the cursor to its default state and says goodbye
 func cleanup() {
+	// Restore the cursor
 	fmt.Print("\033[?25h")
 	fmt.Printf("\033[H\033[2J")
-	// bid adieu!
 	bye := "\nGoodbye!\n"
-	fmt.Print(ansi.ColorCode("blue"), bye, reset)
+	fmt.Print(blu, bye, rst)
 }
 
-// Time to make the 🍩🍩🍩🍩🍩🍩🍩🍩🍩🍩🍩🍩
 func main() {
 	flag.Parse()
-	c := &Config{}
-	// Quick 'n dirty version info
-	c.Version = version
-	if *versionPtr {
-		if c.Version == "github-master" {
-			fmt.Printf("hashii %s\n", c.Version)
-		} else {
-			fmt.Printf("hashii v%s\n", c.Version)
-		}
-		os.Exit(0)
-	}
+
 	// Random color mode setup
-	colors := []string{"cyan", "red", "green", "yellow", "blue", "magenta", "white"}
 	rand.Seed(time.Now().Unix())
+	colors := make([]string, 0)
+	colors = append(colors, cyn, red, grn, ylw, blu, mag, wht)
 	rando := colors[rand.Intn(len(colors))]
-	// CTRL-C handling for cleanup
-	chn := make(chan os.Signal, 2)
-	signal.Notify(chn, os.Interrupt, syscall.SIGTERM)
+
+	// Setup CTRL-C handling for cleanup
+	c := make(chan os.Signal, 2)
+	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
-		<-chn
+		<-c
 		cleanup()
 		os.Exit(0)
 	}()
-	// Panic on these because there really should not be a reasonable
-	// way that the string could not be decoded.
+
 	switch size {
 	case "small":
-		decodedLogo, err := base64.StdEncoding.DecodeString(logoSmall)
-		if err != nil {
-			panic(err)
-		}
-		logo = string(decodedLogo)
+		decLogo, _ := base64.StdEncoding.DecodeString(haSm)
+		logo = string(decLogo)
 	case "medium":
-		decodedLogo, err := base64.StdEncoding.DecodeString(logoMedium)
-		if err != nil {
-			panic(err)
-		}
-		logo = string(decodedLogo)
+		decLogo, _ := base64.StdEncoding.DecodeString(haMd)
+		logo = string(decLogo)
 	case "large":
-		decodedLogo, err := base64.StdEncoding.DecodeString(logoLarge)
-		if err != nil {
-			panic(err)
-		}
-		logo = string(decodedLogo)
+		decLogo, _ := base64.StdEncoding.DecodeString(haLg)
+		logo = string(decLogo)
 	default:
-		decodedLogo, err := base64.StdEncoding.DecodeString(logoMedium)
-		if err != nil {
-			panic(err)
-		}
-		logo = string(decodedLogo)
+		decLogo, _ := base64.StdEncoding.DecodeString(haMd)
+		logo = string(decLogo)
 	}
 
-	// Dazzle mode!
+	// Time to make the 🍩🍩🍩🍩🍩🍩🍩
+
+	// ✨ Dazzle mode!
 	if *dazzlePtr {
 		// Hide the cursor
 		fmt.Print("\033[?25l")
 
 		// Yes, it is an infinite loop — we're just havin' a 'lil fun here
-		// and we have that goroutine above to handle SIGINT a tiny bit ☠️
+		// and we have that goroutine above to handle SIGINT a tiny bit.
 		for {
 			fmt.Printf("\033[H\033[2J")
 			dazzler := bufio.NewScanner(strings.NewReader(logo))
 			for dazzler.Scan() {
 				h = dazzler.Text()
 				mix = colors[rand.Intn(len(colors))]
-				fmt.Println(ansi.ColorCode(mix), h, reset)
+				fmt.Println(mix, h, rst)
 			}
 			time.Sleep(142 * time.Millisecond)
 		}
 		/*
-		   / Due to the infinity above, whatever ends up here is considered
-		   / "unreachable code" ... What if there could somehow be a bit of
-		   / code that was reachable through magic, for example as explained
-		   / in this delightful tale of computer magic:
+		   / Due to the infinity above whatever ends up here is unreachable
+		   / code... What if there could somehow be a bit of code that was
+		   / reachable through magic as explained in this delightful story?
+		   /
 		   / https://www.cs.utah.edu/~elb/folklore/magic.html
 		   /
 		*/
@@ -139,23 +124,35 @@ func main() {
 	scanner := bufio.NewScanner(strings.NewReader(logo))
 	for scanner.Scan() {
 		h = scanner.Text()
+
+		// Choose a color with the switch statement of doom™!
 		switch color {
 		case "plain":
 			fmt.Println(h)
-		case color:
-			if color == "mix" {
-				mix := colors[rand.Intn(len(colors))]
-				fmt.Println(ansi.ColorCode(mix), h, reset)
-			} else if color == "random" {
-				fmt.Println(ansi.ColorCode(rando), h, reset)
-			} else {
-				fmt.Println(ansi.ColorCode(color), h, reset)
-			}
+		case "red":
+			fmt.Println(red, h, rst)
+		case "green":
+			fmt.Println(grn, h, rst)
+		case "yellow":
+			fmt.Println(ylw, h, rst)
+		case "blue":
+			fmt.Println(blu, h, rst)
+		case "magenta":
+			fmt.Println(mag, h, rst)
+		case "cyan":
+			fmt.Println(cyn, h, rst)
+		case "white":
+			fmt.Println(wht, h, rst)
+		case "mix":
+			mix := colors[rand.Intn(len(colors))]
+			fmt.Println(mix, h, rst)
+		case "random":
+			fmt.Println(rando, h, rst)
 		default:
-			fmt.Println(defaultColor, h, reset)
+			fmt.Println(blu, h, rst)
 		}
 	}
 	if err := scanner.Err(); err != nil {
-		fmt.Printf("Error: something weird happened: %v\n",err.Error())
+		log.Fatal(err)
 	}
 }
