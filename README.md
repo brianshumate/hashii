@@ -16,7 +16,7 @@ If you have a Go environment established, you can get, build, and run the
 `hashii` command like this:
 
 ```
-go install github.com/brianshumate/hashii@v1.0.4
+go install github.com/brianshumate/hashii@latest
 ```
 
 ✨ Then, have some fun:
