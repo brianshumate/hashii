@@ -4,17 +4,17 @@ hashii(1) -- display ANSI colored HashiCorp logos
 ## SYNOPSIS
 
 `hashii`<br>
-`hasii` `-color=<color>`<br>
-`hasii` `-size=<size>`<br>
-`hasii` `-dazzle`<br>
-`hasii` `-h`<br>
+`hashii` `-color=<color>`<br>
+`hashii` `-size=<size>`<br>
+`hashii` `-dazzle`<br>
+`hashii` `-h`<br>
 
 ## DESCRIPTION
 
 **hashii** is a toy application for printing ANSI colored HashiCorp logos
 to the terminal for amusement. (Yes, it actually has its own manual page.)
 
-In its default mode, `hasii` prints a medium sized blue **H** logo.
+In its default mode, `hashii` prints a medium sized blue **H** logo.
 
 there are a few options which can be used to modify hashii's behavior.
 e output format.
@@ -63,9 +63,9 @@ and is for entertainment purposes only.
 
 ## COPYRIGHT
 
-hashii is Copyright (C) 2017 Brian Shumate <http://brianshumate.com/>
+hashii is Copyright (C) 2023 Brian Shumate <http://brianshumate.com/>
 
 hashii is released under the 2 Clause BSD license
 
-The HashiCorp logo is a registered trademark of HashiCorp
+The HashiCorp logo is a registered trademark of HashiCorp,
 and is used with permission.
