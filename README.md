@@ -12,22 +12,21 @@ Casually learning Go for various values of great good!
 
 ## How?
 
-If you have a Go environment established, you can get, build, and run the
-`hashii` command like this:
+If you have a Go environment established, you can install the `hashii` command like this:
 
-```
+```shell
 go install github.com/brianshumate/hashii@latest
 ```
 
 ✨ Then, have some fun:
 
-```
+```shell
 hashii -size=medium -color=random
 ```
 
 or
 
-```
+```shell
 hashii -size=large -color=mix
 ```
 
@@ -48,7 +47,7 @@ Need to send a beacon, a signal of your DevOps joy? Well neighbor, try:
 
 𝗗𝗮𝘇𝘇𝗹𝗲 𝗠𝗼𝗱𝗲
 
-```
+```shell
 hashii -dazzle -size=large
 ```
 
