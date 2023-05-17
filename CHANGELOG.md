@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.4
+
+- Release
+- Update README
+
 ## 1.0.3
 
 - Correct path
