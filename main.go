@@ -18,7 +18,7 @@ import (
 
 var color, h, logo, mix, size string
 var dazzlePtr *bool
-var version = "github-master"
+var version = "1.0.5"
 var cyn = ansi.ColorCode("cyan")
 var grn = ansi.ColorCode("green")
 var blu = ansi.ColorCode("blue")

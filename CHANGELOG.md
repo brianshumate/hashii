@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 1.0.5
+
+- Release
+- Correct version
+
 ## 1.0.4
 
 - Release
