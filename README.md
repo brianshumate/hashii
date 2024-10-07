@@ -2,9 +2,9 @@
 
 ## What?
 
-ANSI color versions of the HashiCorp "H" logo emitted to your screen:
+ANSI color versions of the HashiCorp "H" logo emitted to your screen like this:
 
-![](https://github.com/brianshumate/hashii/blob/master/share/screenshot.png)
+![Screenshot showing hashii in action](https://github.com/brianshumate/hashii/blob/master/share/screenshot.png)
 
 ## Why?
 
@@ -41,7 +41,7 @@ hashii -size=large -color=mix
 - red
 - yellow
 
-You can also use the `-plain` flag to get a plain version of the logo.
+You can also use the `-plain` flag to get a plain version of the logo without colorization.
 
 ### BONUS
 
