@@ -41,6 +41,8 @@ hashii -size=large -color=mix
 - red
 - yellow
 
+You can also use the `-plain` flag to get a plain version of the logo.
+
 ### BONUS
 
 Need to send a beacon, a signal of your DevOps joy? Well neighbor, try:

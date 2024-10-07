@@ -35,6 +35,10 @@ These options control the style of logo hashii outputs to the screen.
     any condition which can be activated by blinking lights or rapidly
     changing patterns*.
 
+  * `-plain`:
+    Plain mode will output a plain text version of the logo without any
+    colorization.
+
   * `-h`:
     Print help for hashii
 
@@ -58,14 +62,12 @@ Display help:
 
 ## BUGS
 
-**hashii** is written in Go by a complete novice during so-called "free time"
-and is for entertainment purposes only.
+**hashii** is for entertainment purposes only, and probably has bugs.
 
 ## COPYRIGHT
 
-hashii is Copyright (C) 2023 Brian Shumate <http://brianshumate.com/>
+hashii is Copyright (C) 2024 Brian Shumate <http://brianshumate.com/>
 
 hashii is released under the 2 Clause BSD license
 
-The HashiCorp logo is a registered trademark of HashiCorp,
-and is used with permission.
+The HashiCorp logo is a registered trademark of HashiCorp, and is used with permission.
