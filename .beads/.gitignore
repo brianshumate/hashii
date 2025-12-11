@@ -1,6 +1,3 @@
-hashii
-command/climu.go
-
 # SQLite databases
 *.db
 *.db?*
