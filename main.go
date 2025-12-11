@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"context"
 	"encoding/base64"
 	"flag"
 	"fmt"
@@ -15,7 +14,7 @@ import (
 	"time"
 )
 
-const version = "2.0.2"
+const version = "2.0.3"
 
 // Base64-encoded logo art in three sizes
 const (
@@ -168,7 +167,11 @@ func (a *App) selectColor() ColorCode {
 	}
 
 	switch a.config.Color {
-	case "mix", "random":
+	case "mix":
+		// mix mode is handled per-line in printLogo
+		return Blue // placeholder, won't be used
+	case "random":
+		// random picks one color for the entire logo
 		return randomColor()
 	case "plain":
 		a.config.PlainMode = true
@@ -187,9 +190,13 @@ func randomColor() ColorCode {
 
 func (a *App) printLogo(color ColorCode) {
 	scanner := bufio.NewScanner(strings.NewReader(a.logo))
+	isMixMode := a.config.Color == "mix"
 	for scanner.Scan() {
 		if a.config.PlainMode {
 			fmt.Fprintln(a.output, scanner.Text())
+		} else if isMixMode {
+			// mix mode: random color per line
+			fmt.Fprintf(a.output, "%s%s%s\n", randomColor(), scanner.Text(), Reset)
 		} else {
 			fmt.Fprintf(a.output, "%s%s%s\n", color, scanner.Text(), Reset)
 		}
@@ -197,17 +204,22 @@ func (a *App) printLogo(color ColorCode) {
 	// Scanner errors on strings.Reader are not possible, so we skip error checking
 }
 
-func (a *App) runDazzle() error {
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
+func (a *App) printDazzleLogo() {
+	scanner := bufio.NewScanner(strings.NewReader(a.logo))
+	for scanner.Scan() {
+		fmt.Fprintf(a.output, "%s%s%s\n", randomColor(), scanner.Text(), Reset)
+	}
+}
 
+func (a *App) runDazzle() error {
 	// Set up signal handling
 	sigCh := make(chan os.Signal, 1)
 	signal.Notify(sigCh, os.Interrupt, syscall.SIGTERM)
 
+	done := make(chan struct{})
 	go func() {
 		<-sigCh
-		cancel()
+		close(done)
 	}()
 
 	// Hide cursor
@@ -220,16 +232,15 @@ func (a *App) runDazzle() error {
 		fmt.Fprintf(a.output, "%sBye!%s\n", Blue, Reset)
 	}()
 
-	ticker := time.NewTicker(142 * time.Millisecond)
-	defer ticker.Stop()
-
+	// Simple loop like the original - render first, then sleep
 	for {
 		select {
-		case <-ctx.Done():
+		case <-done:
 			return nil
-		case <-ticker.C:
+		default:
 			fmt.Fprint(a.output, "\033[H\033[2J")
-			a.printLogo(randomColor())
+			a.printDazzleLogo()
+			time.Sleep(142 * time.Millisecond)
 		}
 	}
 }
